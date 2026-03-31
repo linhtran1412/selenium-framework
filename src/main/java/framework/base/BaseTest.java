@@ -1,10 +1,8 @@
 package framework.base;
 
-import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.io.FileHandler;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
@@ -32,10 +30,10 @@ public abstract class BaseTest {
     public void setUp(@Optional("chrome") String browser, @Optional("dev") String env) {
         System.setProperty("env", env);
 
-        // Khởi tạo ChromeDriver cơ bản (Sẽ nâng cấp ở Bài 5 ConfigReader)
-        WebDriverManager.chromedriver().setup();
-        WebDriver driver = new ChromeDriver();
-        driver.manage().window().maximize();
+        // Đã thay thế khởi tạo thủ công bằng DriverFactory
+        // Nó sẽ tự động bật Headless nếu đang chạy trên GitHub Actions
+        WebDriver driver = DriverFactory.createDriver(browser);
+
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
 
         // Mở sẵn trang web thực hành
